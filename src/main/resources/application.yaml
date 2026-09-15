@@ -1,0 +1,14 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: eblumbit
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/eblumbit_spring
+    username: postgres
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
