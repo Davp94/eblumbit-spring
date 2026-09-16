@@ -1,10 +1,15 @@
 package com.blumbit.eblumbit.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity 
+@Table(name = "users")
 public class Usuario {
 
     @Id 
@@ -13,12 +18,17 @@ public class Usuario {
     @Column(nullable = false) 
     private boolean estado; 
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name = "name")
     private String username;
 
+    @Column(nullable = false, name = "password", length = 250)
     private String password;
 
+    @Column(unique = true, nullable = false, name = "email", length = 200)
     private String email;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<RolUsuario> rolesUsuario;
 
     public Usuario(String username, String password, String email) {
         this.username = username;
