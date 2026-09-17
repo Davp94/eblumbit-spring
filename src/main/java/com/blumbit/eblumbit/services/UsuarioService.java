@@ -47,4 +47,13 @@ public class UsuarioService {
     public void deleteUsuario(Integer id) {
         usuarioRepository.deleteById(id);
     }
+
+    public void logicalDeleteUsuario(Integer id) {
+        Usuario usuarioFinded = usuarioRepository.findById(id).orElse(null);
+        if(usuarioFinded != null)
+        {
+            usuarioFinded.setEstado(false);
+            usuarioRepository.save(usuarioFinded);
+        }
+    }
 }

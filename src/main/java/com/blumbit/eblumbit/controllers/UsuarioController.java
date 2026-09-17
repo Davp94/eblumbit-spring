@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,6 +41,11 @@ public class UsuarioController {
     @PutMapping 
     public Usuario updateUsuario(@RequestBody Usuario usuario) {
         return usuarioService.updateUsuario(usuario);
+    }
+
+    @PatchMapping("/{id}")
+    public void logicalDeleteusuario(@PathVariable Integer id) {
+        usuarioService.logicalDeleteUsuario(id);
     }
 
     @DeleteMapping("/{id}") 
