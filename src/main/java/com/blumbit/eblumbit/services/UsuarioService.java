@@ -16,7 +16,6 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-
     public List<Usuario> findAllUsuarios() {
         return usuarioRepository.findAll(); // select * from users
     }
@@ -27,5 +26,25 @@ public class UsuarioService {
 
     public Usuario findUsuarioByUsername(String username) {
         return usuarioRepository.findByUsername(username);
+    }
+
+    public Usuario createUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario updateUsuario(Usuario usuario) {
+        Usuario usuarioFinded = usuarioRepository.findById(usuario.getId()).orElse(null);
+        if(usuarioFinded != null)
+        {
+            usuarioFinded.setUsername(usuario.getUsername());
+            usuarioFinded.setPassword(usuario.getPassword());
+            usuarioFinded.setEmail(usuario.getEmail());
+            return usuarioRepository.save(usuarioFinded);
+        }
+        return null;
+    }
+
+    public void deleteUsuario(Integer id) {
+        usuarioRepository.deleteById(id);
     }
 }
