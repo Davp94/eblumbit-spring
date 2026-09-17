@@ -11,7 +11,7 @@ import com.blumbit.eblumbit.entities.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     //QUERY METHODS
-    List<Usuario> findByCorreo(String correo); // select * from users where correo = ${correo}
+    List<Usuario> findByEmail(String email); // select * from users where correo = ${correo}
 
     Usuario findByUsername(String username); // select * from users where username = ${username} limit 1
 }
