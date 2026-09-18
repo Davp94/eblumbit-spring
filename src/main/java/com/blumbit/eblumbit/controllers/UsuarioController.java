@@ -1,8 +1,10 @@
 package com.blumbit.eblumbit.controllers;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.blumbit.eblumbit.entities.Usuario;
+import com.blumbit.eblumbit.dto.CreateUsuarioDto;
+import com.blumbit.eblumbit.dto.UsuarioDto;
 import com.blumbit.eblumbit.services.UsuarioService;
 
 @RestController
@@ -24,32 +28,40 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping 
-    public List<Usuario> getAllUsuarios() {
-        return usuarioService.findAllUsuarios();
+    public ResponseEntity<List<UsuarioDto>> getAllUsuarios() {
+        return ResponseEntity.ok(usuarioService.findAllUsuarios());
     }
 
     @GetMapping("/{id}")
-    public Usuario findUsuarioById(@PathVariable Integer id) {
-        return usuarioService.findUsuarioById(id);
+    public ResponseEntity<UsuarioDto> findUsuarioById(@PathVariable Integer id) {
+        return ResponseEntity.ok(usuarioService.findUsuarioById(id));
     }
 
     @PostMapping 
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.createUsuario(usuario);
+    public ResponseEntity<UsuarioDto> createUsuario(@RequestBody CreateUsuarioDto usuario) {
+        UsuarioDto userSaved = usuarioService.createUsuario(usuario);
+        URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(userSaved.getId())
+                    .toUri();
+        return ResponseEntity.created(location).body(userSaved);
     }
 
-    @PutMapping 
-    public Usuario updateUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.updateUsuario(usuario);
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioDto> updateUsuario(@PathVariable Integer id, @RequestBody CreateUsuarioDto usuario) {
+        return ResponseEntity.ok(usuarioService.updateUsuario(id, usuario));
     }
 
     @PatchMapping("/{id}")
-    public void logicalDeleteusuario(@PathVariable Integer id) {
+    public ResponseEntity<Void> logicalDeleteusuario(@PathVariable Integer id) {
         usuarioService.logicalDeleteUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}") 
-    public void deleteUsuario(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
         usuarioService.deleteUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 }

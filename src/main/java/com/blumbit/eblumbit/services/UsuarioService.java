@@ -1,9 +1,12 @@
 package com.blumbit.eblumbit.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.blumbit.eblumbit.dto.CreateUsuarioDto;
+import com.blumbit.eblumbit.dto.UsuarioDto;
 import com.blumbit.eblumbit.entities.Usuario;
 import com.blumbit.eblumbit.repository.UsuarioRepository;
 
@@ -16,30 +19,36 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<Usuario> findAllUsuarios() {
-        return usuarioRepository.findAll(); // select * from users
+    public List<UsuarioDto> findAllUsuarios() {
+        List<UsuarioDto> usuariosDto = new ArrayList<>();
+        for (Usuario u : usuarioRepository.findAll())
+        {
+            usuariosDto.add(UsuarioDto.fromEntityData(u));
+        }
+        return usuariosDto;
     }
 
-    public Usuario findUsuarioById(Integer id) {
-        return usuarioRepository.findById(id).orElse(null); // select * from users where id = ?
+    public UsuarioDto findUsuarioById(Integer id) {
+        
+        return UsuarioDto.fromEntityData(usuarioRepository.findById(id).orElse(null));
     }
 
-    public Usuario findUsuarioByUsername(String username) {
-        return usuarioRepository.findByUsername(username);
+    public UsuarioDto findUsuarioByUsername(String username) {
+        return UsuarioDto.fromEntityData(usuarioRepository.findByUsername(username));
     }
 
-    public Usuario createUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuarioDto createUsuario(CreateUsuarioDto usuarioDto) {
+        return UsuarioDto.fromEntityData(usuarioRepository.save(CreateUsuarioDto.toEntity(usuarioDto)));
     }
 
-    public Usuario updateUsuario(Usuario usuario) {
-        Usuario usuarioFinded = usuarioRepository.findById(usuario.getId()).orElse(null);
+    public UsuarioDto updateUsuario(Integer id, CreateUsuarioDto usuarioDto) {
+        Usuario usuarioFinded = usuarioRepository.findById(id).orElse(null);
         if(usuarioFinded != null)
         {
-            usuarioFinded.setUsername(usuario.getUsername());
-            usuarioFinded.setPassword(usuario.getPassword());
-            usuarioFinded.setEmail(usuario.getEmail());
-            return usuarioRepository.save(usuarioFinded);
+            usuarioFinded.setUsername(usuarioDto.getUsername());
+            usuarioFinded.setPassword(usuarioDto.getPassword());
+            usuarioFinded.setEmail(usuarioDto.getCorreo());
+            return UsuarioDto.fromEntityData(usuarioRepository.save(usuarioFinded));
         }
         return null;
     }
