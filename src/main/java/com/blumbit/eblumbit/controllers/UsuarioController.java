@@ -3,7 +3,6 @@ package com.blumbit.eblumbit.controllers;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.blumbit.eblumbit.dto.CreateUsuarioDto;
 import com.blumbit.eblumbit.dto.UsuarioDto;
 import com.blumbit.eblumbit.services.UsuarioService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios") 
@@ -41,7 +42,7 @@ public class UsuarioController {
     }
 
     @PostMapping 
-    public ResponseEntity<UsuarioDto> createUsuario(@RequestBody CreateUsuarioDto usuario) {
+    public ResponseEntity<UsuarioDto> createUsuario(@Valid @RequestBody CreateUsuarioDto usuario) {
         UsuarioDto userSaved = usuarioService.createUsuario(usuario);
         URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
@@ -52,7 +53,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDto> updateUsuario(@PathVariable Integer id, @RequestBody CreateUsuarioDto usuario) {
+    public ResponseEntity<UsuarioDto> updateUsuario(@PathVariable Integer id, @Valid @RequestBody CreateUsuarioDto usuario) {
         return ResponseEntity.ok(usuarioService.updateUsuario(id, usuario));
     }
 

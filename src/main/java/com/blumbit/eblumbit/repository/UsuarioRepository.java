@@ -3,6 +3,7 @@ package com.blumbit.eblumbit.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.blumbit.eblumbit.entities.Usuario;
@@ -14,4 +15,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     List<Usuario> findByEmail(String email); // select * from users where correo = ${correo}
 
     Usuario findByUsername(String username); // select * from users where username = ${username} limit 1
+
+    @Query(value="SELECT EXIST(SELECT 1 FROM users where name = ?1)", nativeQuery = true)
+    boolean existByUsername(String username);
 }

@@ -9,14 +9,18 @@ import com.blumbit.eblumbit.dto.CreateUsuarioDto;
 import com.blumbit.eblumbit.dto.UsuarioDto;
 import com.blumbit.eblumbit.entities.Usuario;
 import com.blumbit.eblumbit.repository.UsuarioRepository;
+import com.blumbit.eblumbit.validation.impl.UniqueNameChecker;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    private final UniqueNameChecker uniqueNameChecker;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, UniqueNameChecker uniqueNameChecker) {
         this.usuarioRepository = usuarioRepository;
+        this.uniqueNameChecker = uniqueNameChecker;
     }
 
     public List<UsuarioDto> findAllUsuarios() {
@@ -38,6 +42,11 @@ public class UsuarioService {
     }
 
     public UsuarioDto createUsuario(CreateUsuarioDto usuarioDto) {
+
+        if(!uniqueNameChecker.isUniqueName(usuarioDto.getUsername()))
+        {
+            return null;
+        }
         return UsuarioDto.fromEntityData(usuarioRepository.save(CreateUsuarioDto.toEntity(usuarioDto)));
     }
 
