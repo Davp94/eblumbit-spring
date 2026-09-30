@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.blumbit.eblumbit.dto.ventas.AnularVentaDto;
@@ -46,6 +48,9 @@ public class VentasService implements IVentasService{
 
     private final ClienteRepository clienteRepository;
 
+    private static final Logger logger = LoggerFactory
+    .getLogger(VentasService.class);
+
     @Override
     public List<VentasResponse> findAllVentas() {
         return ventasRepository.findAll().stream().map(VentasResponse::fromEntity)
@@ -64,9 +69,13 @@ public class VentasService implements IVentasService{
     @Transactional 
     @Override
     public VentasResponse createVenta(VentasRequest ventasRequest) {
+
+        logger.debug("Ejecutando createVentaService");
+        logger.debug("Request Recibida {}", ventasRequest);
        //crear venta
        Cliente cliente = clienteRepository.findById(ventasRequest.getClienteId())
        .orElseThrow(()-> new RuntimeException("Cliente no encontrado"));
+       logger.debug("Cliente encontrado {}", cliente);
        Usuario usuario = usuarioRepository.findById(ventasRequest.getUsuarioId())
        .orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
        Venta venta = VentasRequest.toEntity(ventasRequest);

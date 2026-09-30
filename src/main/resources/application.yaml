@@ -12,3 +12,17 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+logging:
+  file:
+    name: logs/compras-ventas.log
+    logback:
+    rollingpolicy:
+      file-name-pattern: logs/compras-ventas-%d{yyyy-MM-dd}.log
+      max-history: 30
+      max-file-size: 10MB
+      total-size-cap: 1GB
+  level:
+    root: INFO
+    '[com.blumbit.eblumbit]': DEBUG
+    '[org.springframework.web]': WARN
+    '[org.hibernate]': WARN

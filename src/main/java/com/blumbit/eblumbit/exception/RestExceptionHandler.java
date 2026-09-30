@@ -13,13 +13,16 @@ import com.blumbit.eblumbit.common.dto.CustomErrorResponse;
 
 import io.micrometer.core.instrument.config.validate.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j 
 @RestControllerAdvice 
 public class RestExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<CustomErrorResponse<String>> handleException(Exception exception, HttpServletRequest req) {
+        log.error("STANDARD EXCEPTION: {}", exception.getMessage(), exception);
         return new ResponseEntity<>(CustomErrorResponse.<String>builder()
         .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
         .errorCode(HttpStatus.INTERNAL_SERVER_ERROR.name())
@@ -35,6 +38,18 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(CustomErrorResponse.<String>builder()
         .statusCode(HttpStatus.BAD_REQUEST.value())
         .errorCode(HttpStatus.BAD_REQUEST.name())
+        .message(exception.getMessage())
+        .timestamp(new Date().toString())
+        .path(req.getRequestURI())
+        .build(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DomainException.class)
+    public ResponseEntity<CustomErrorResponse<String>> handleValidationDomainException(DomainException exception, HttpServletRequest req) {
+        log.error("DOMAIN EXCEPTION: {}", exception.getMessage(), exception);
+        return new ResponseEntity<>(CustomErrorResponse.<String>builder()
+        .statusCode(exception.getStatusCode())
+        .errorCode(exception.getErrorCode())
         .message(exception.getMessage())
         .timestamp(new Date().toString())
         .path(req.getRequestURI())
