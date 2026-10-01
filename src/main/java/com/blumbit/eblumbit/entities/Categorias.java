@@ -17,4 +17,11 @@ public class Categorias { //categorias
 
     @Column(length = Integer.MAX_VALUE)
     private String descripcion;
+
+    public Categorias() {}
+
+    public Categorias(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
 }

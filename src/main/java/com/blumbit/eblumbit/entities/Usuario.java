@@ -37,7 +37,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<RolUsuario> rolesUsuario;
 
-    public Usuario(String username, String password, String email) {
+	public Usuario(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -84,6 +84,14 @@ public class Usuario {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    public List<RolUsuario> getRolesUsuario() {
+		return rolesUsuario;
+	}
+
+	public void setRolesUsuario(List<RolUsuario> rolesUsuario) {
+		this.rolesUsuario = rolesUsuario;
+	}
 
     
 
