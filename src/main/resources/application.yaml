@@ -26,3 +26,8 @@ logging:
     '[com.blumbit.eblumbit]': DEBUG
     '[org.springframework.web]': WARN
     '[org.hibernate]': WARN
+application:
+  jwt:
+    secret-key: mysecretkey
+    expiration: 900000 # 15 minutos
+    refresh-expiration: 604800000 # 7 días

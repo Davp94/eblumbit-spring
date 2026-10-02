@@ -3,7 +3,7 @@ package com.blumbit.eblumbit.exception;
 import lombok.Getter;
 
 @Getter 
-public abstract class DomainException extends Exception {
+public abstract class DomainException extends RuntimeException {
 
     private int statusCode;
     private String errorCode;

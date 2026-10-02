@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.blumbit.eblumbit.entities.Usuario;
     import com.blumbit.eblumbit.repository.UsuarioRepository;
@@ -27,6 +29,20 @@ import com.blumbit.eblumbit.entities.Usuario;
 
         @Autowired
         private UsuarioRepository usuarioRepository;
+
+        //Configuration CORS
+        @Bean
+        public WebMvcConfigurer corsConfiguration() {
+            return new WebMvcConfigurer() {
+                @Override
+                public void addCorsMappings(CorsRegistry registry) {
+                    registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                        .allowedHeaders("*");
+                }
+            };
+        }
 
         @Bean 
         public UserDetailsService userDetailsService() {
