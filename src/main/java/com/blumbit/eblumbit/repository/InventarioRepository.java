@@ -11,4 +11,6 @@ import java.util.List;
 public interface InventarioRepository extends JpaRepository<Inventario, Integer>{
 
     Optional<Inventario> findByAlmacenIdAndProductoId(Integer almacenId, Integer productoId);
+
+    List<Inventario> findByAlmacen_Id(Integer almacenId);
 }

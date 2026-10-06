@@ -6,6 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import lombok.*;
+
+@Getter 
+@Setter 
+@Builder 
+@AllArgsConstructor 
+@NoArgsConstructor 
 @Entity 
 public class Categorias { //categorias
     @Id
@@ -17,11 +24,4 @@ public class Categorias { //categorias
 
     @Column(length = Integer.MAX_VALUE)
     private String descripcion;
-
-    public Categorias() {}
-
-    public Categorias(String nombre, String descripcion) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
 }
