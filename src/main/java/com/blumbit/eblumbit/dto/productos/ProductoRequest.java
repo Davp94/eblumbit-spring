@@ -2,6 +2,8 @@ package com.blumbit.eblumbit.dto.productos;
 
 import java.math.BigDecimal;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.blumbit.eblumbit.entities.Producto;
 
 import lombok.*;
@@ -17,6 +19,7 @@ public class ProductoRequest {
     private BigDecimal precioVentaActual;
     private String marca;
     private String codigoBarras;
+    private MultipartFile imagen;
     private Integer categoriaId;
 
     public static Producto toEntity(ProductoRequest productoRequest) {

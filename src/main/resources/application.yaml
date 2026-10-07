@@ -31,3 +31,5 @@ application:
     secret-key: mysecretkey
     expiration: 900000 # 15 minutos
     refresh-expiration: 604800000 # 7 días
+storage:
+  location: /home/david/Documents/projects/blumbit/springv6/eblumbit/files
