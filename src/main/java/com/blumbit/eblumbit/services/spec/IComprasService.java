@@ -12,4 +12,6 @@ public interface IComprasService {
     ComprasResponse findCompraById(Integer id);
 
     ComprasResponse createCompra(ComprasRequest comprasRequest);
+
+    byte[] generateReport(Integer id);
 }

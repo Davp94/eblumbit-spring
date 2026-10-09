@@ -16,4 +16,6 @@ public interface IVentasService {
 
     void anularVenta(Integer id, AnularVentaDto anularVentaDto);
 
+    byte[] generateReport(Integer id);
+
 }

@@ -10,6 +10,8 @@ import com.blumbit.eblumbit.services.spec.IVentasService;
 
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -39,6 +41,15 @@ public class VentasController {
     public ResponseEntity<VentasResponse> findVentaById(@PathVariable Integer id) {
         return ResponseEntity.ok(ventasService.findVentaById(id));
     }
+
+    @GetMapping("{ventaId}/report")
+    public ResponseEntity<byte[]> getReportVenta(@PathVariable Integer ventaId) {
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_PDF)
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=ventas-report.pdf")
+            .body(ventasService.generateReport(ventaId));
+    }
+    
 
     @PostMapping
     public ResponseEntity<VentasResponse> createVenta(@RequestBody VentasRequest ventasRequest) {

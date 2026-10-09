@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .header {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Report</title>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div>Compra - <span th:text="${compra.codigo}"></span></div>
+            <div>Fecha: <span th:text="${compra.fecha}"></span></div>
+            <div>Usuario: <span th:text="${compra.usuario.nombre}"></span></div>
+        </div>
+        <div class="header-right">
+            <img th:src="@{classpath:/static/logo-blumbit-color1.png}" alt="Blumbit Logo"></img>
+        </div>
+    </div> 
+    <div>
+        <h3>Proveedor</h3>
+        <p>Nombre: <span th:text="${compra.proveedor.razonSocial}"></span></p>
+        <p>Documento: <span th:text="${compra.proveedor.nroIdentificacion}"></span></p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="detalleCompra : ${detalleCompra}">
+                <td th:text="${detalleCompra.producto.nombre}"></td>
+                <td th:text="${detalleCompra.cantidad}"></td>
+                <td th:text="${detalleCompra.precio}"></td>
+                <td th:text="${detalleCompra.cantidad * detalleCompra.precio}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        Total: <span th:text="${total}"></span>
+    </div>
+</body>
+</html>

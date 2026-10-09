@@ -1,7 +1,10 @@
 package com.blumbit.eblumbit.services.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import com.blumbit.eblumbit.entities.Inventario;
 import com.blumbit.eblumbit.entities.Producto;
 import com.blumbit.eblumbit.entities.Proveedor;
 import com.blumbit.eblumbit.entities.Usuario;
+import com.blumbit.eblumbit.exception.ResourceNotFoundException;
 import com.blumbit.eblumbit.repository.AlmacenRepository;
 import com.blumbit.eblumbit.repository.ComprasRepository;
 import com.blumbit.eblumbit.repository.DetalleCompraRepository;
@@ -33,6 +37,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ComprasService implements IComprasService {
 
+    private final PdfService pdfService;
     private final ComprasRepository comprasRepository;
     private final ProveedorRepository proveedorRepository;
     private final UsuarioRepository usuarioRepository;
@@ -111,5 +116,19 @@ public class ComprasService implements IComprasService {
         inventario.setCantidadActual(inventario.getCantidadActual() + cantidad);
         inventario.setFechaActualizacion(LocalDateTime.now());
         inventarioRepository.save(inventario);
+    }
+
+    @Override
+    public byte[] generateReport(Integer id) {
+        Compra compraRetrieved = comprasRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Compra", id));
+        List<DetalleCompra> detalle = detalleCompraRepository.findByCompra_Id(id);
+        Map<String, Object> compraReportData = new HashMap<>();
+        compraReportData.put("compra", compraRetrieved);
+        compraReportData.put("detalleCompra", detalle);
+        compraReportData.put("total", detalle.stream().map(d->d.getPrecioUnitarioCompra()
+        .multiply(BigDecimal.valueOf(d.getCantidad()))).reduce(BigDecimal.ZERO, BigDecimal::add));
+
+        return pdfService.generatePdfReport("compra-report", compraReportData);
     }
 }

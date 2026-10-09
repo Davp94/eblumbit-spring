@@ -1,7 +1,10 @@
 package com.blumbit.eblumbit.services.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -14,10 +17,13 @@ import com.blumbit.eblumbit.dto.ventas.DetalleVentaResponse;
 import com.blumbit.eblumbit.dto.ventas.VentasRequest;
 import com.blumbit.eblumbit.dto.ventas.VentasResponse;
 import com.blumbit.eblumbit.entities.Cliente;
+import com.blumbit.eblumbit.entities.Compra;
+import com.blumbit.eblumbit.entities.DetalleCompra;
 import com.blumbit.eblumbit.entities.DetalleVenta;
 import com.blumbit.eblumbit.entities.Inventario;
 import com.blumbit.eblumbit.entities.Usuario;
 import com.blumbit.eblumbit.entities.Venta;
+import com.blumbit.eblumbit.exception.ResourceNotFoundException;
 import com.blumbit.eblumbit.repository.AlmacenRepository;
 import com.blumbit.eblumbit.repository.ClienteRepository;
 import com.blumbit.eblumbit.repository.DetalleVentaRepository;
@@ -25,6 +31,7 @@ import com.blumbit.eblumbit.repository.InventarioRepository;
 import com.blumbit.eblumbit.repository.ProductoRepository;
 import com.blumbit.eblumbit.repository.UsuarioRepository;
 import com.blumbit.eblumbit.repository.VentasRepository;
+import com.blumbit.eblumbit.services.spec.IPdfService;
 import com.blumbit.eblumbit.services.spec.IVentasService;
 
 import jakarta.transaction.Transactional;
@@ -47,6 +54,8 @@ public class VentasService implements IVentasService{
     private final DetalleVentaRepository detalleVentaRepository;
 
     private final ClienteRepository clienteRepository;
+
+    private final IPdfService pdfService;
 
     private static final Logger logger = LoggerFactory
     .getLogger(VentasService.class);
@@ -118,6 +127,20 @@ public class VentasService implements IVentasService{
         }else {
             throw new RuntimeException("Inventario no valido");
         }
+    }
+
+    @Override
+    public byte[] generateReport(Integer id) {
+        Venta ventaRetrieved = ventasRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Venta", id));
+        List<DetalleVenta> detalle = detalleVentaRepository.findByVenta_Id(id);
+        Map<String, Object> ventaReportData = new HashMap<>();
+        ventaReportData.put("venta", ventaRetrieved);
+        ventaReportData.put("detalleVenta", detalle);
+        ventaReportData.put("total", detalle.stream().map(d->d.getPrecioUnitarioVenta()
+        .multiply(BigDecimal.valueOf(d.getCantidad()))).reduce(BigDecimal.ZERO, BigDecimal::add));
+
+        return pdfService.generatePdfReport("ventas-report", ventaReportData);
     }
 
 }
