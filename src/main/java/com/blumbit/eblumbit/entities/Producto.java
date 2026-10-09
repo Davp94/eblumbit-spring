@@ -44,7 +44,7 @@ public class Producto {
     @Column(length = 100)
     private String marca;
 
-    @Column (scale = 12, precision = 2)
+    @Column (scale = 2, precision = 12)
     private BigDecimal precioVentaActual;
 
     private Integer stockMinimo;

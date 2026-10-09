@@ -28,7 +28,7 @@ logging:
     '[org.hibernate]': WARN
 application:
   jwt:
-    secret-key: mysecretkey
+    secret-key: RRv0m1zrYhkJTyxJAFkcPHNmHByO1yhfnSzrqy4kndl
     expiration: 900000 # 15 minutos
     refresh-expiration: 604800000 # 7 días
 storage:

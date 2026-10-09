@@ -9,6 +9,7 @@ import java.util.Random;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class DataSeeder implements ApplicationRunner {
     private final EntityManager entityManager;
     private final ClienteRepository clienteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private static final String[] SUBJECTS = {
         "Usuario", "Rol", "Permiso", "Cliente", "Proveedor",
@@ -195,10 +197,10 @@ public class DataSeeder implements ApplicationRunner {
     }
 
     private void crearUsuarios(Faker faker, Rol adminRole, Rol ventasRole, Rol rrhhRole) {
-        crearUsuario("admin", "admin@test.com", "123456", adminRole);
+        crearUsuario("admin", "admin@test.com", passwordEncoder.encode("123456"), adminRole);
         for (int i = 1; i <= 9; i++) {
             Rol rol = i <= 5 ? ventasRole : rrhhRole;
-            crearUsuario("usuario" + i, "usuario" + i + "@example.test", "123456", rol);
+            crearUsuario("usuario" + i, "usuario" + i + "@example.test", passwordEncoder.encode("123456"), rol);
         }
     }
 

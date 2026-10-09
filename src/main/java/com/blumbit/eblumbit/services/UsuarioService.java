@@ -3,6 +3,7 @@ package com.blumbit.eblumbit.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blumbit.eblumbit.dto.CreateUsuarioDto;
@@ -18,9 +19,12 @@ public class UsuarioService {
 
     private final UniqueNameChecker uniqueNameChecker;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UniqueNameChecker uniqueNameChecker) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, UniqueNameChecker uniqueNameChecker, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.uniqueNameChecker = uniqueNameChecker;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UsuarioDto> findAllUsuarios() {
@@ -47,7 +51,9 @@ public class UsuarioService {
         {
             return null;
         }
-        return UsuarioDto.fromEntityData(usuarioRepository.save(CreateUsuarioDto.toEntity(usuarioDto)));
+        var usuarioToSave = CreateUsuarioDto.toEntity(usuarioDto);
+        usuarioToSave.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
+        return UsuarioDto.fromEntityData(usuarioRepository.save(usuarioToSave));
     }
 
     public UsuarioDto updateUsuario(Integer id, CreateUsuarioDto usuarioDto) {
