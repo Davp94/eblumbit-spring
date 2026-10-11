@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/auth/login").permitAll()
                     .requestMatchers("/health").permitAll()
-                    .requestMatchers("/ventas").hasAnyAuthority("VER_VENTAS", "ROLE_VENDEDOR")
+                    .requestMatchers("/ventas").hasAnyAuthority("VER_VENTAS", "ROLE_VENTAS", "ROLE_ADMIN")
                     .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
