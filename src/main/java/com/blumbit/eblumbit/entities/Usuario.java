@@ -35,6 +35,12 @@ public class Usuario {
     @Column(unique = true, nullable = false, name = "email", length = 200)
     private String email;
 
+    @Column(name = "nombres", length = 200)
+    private String nombres;
+
+    @Column(name = "apellidos", length = 200)
+    private String apellidos;
+
     @OneToMany(mappedBy = "usuario", fetch=FetchType.EAGER)
     private List<RolUsuario> rolesUsuario;
 
@@ -60,6 +66,22 @@ public class Usuario {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public void setId(Integer id) {

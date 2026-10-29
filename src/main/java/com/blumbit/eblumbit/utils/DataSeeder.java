@@ -41,10 +41,10 @@ public class DataSeeder implements ApplicationRunner {
     private final PasswordEncoder passwordEncoder;
 
     private static final String[] SUBJECTS = {
-        "Usuario", "Rol", "Permiso", "Cliente", "Proveedor",
-        "Sucursal", "Categorias", "Producto", "Almacen", "Inventario"
+        "users", "roles", "permissions", "productos", "compras", "ventas",
+        "inventario", "sucursales", "almacenes", "clientes", "proveedores"
     };
-    private static final String[] ACTIONS = { "read", "create", "update", "delete" };
+    private static final String[] ACTIONS = { "crear", "leer", "actualizar", "eliminar" };
 
     @Override
     @Transactional
@@ -58,7 +58,7 @@ public class DataSeeder implements ApplicationRunner {
 
         List<Permiso> permisos = crearPermisos();
         Rol adminRole = crearRol("ADMIN", "Acceso completo", permisos);
-        Rol ventasRole = crearRol("VENTAS", "Operaciones de ventas", permisosVentas(permisos));
+        Rol ventasRole = crearRol("VENDEDOR", "vendedor que realiza operaciones de compras y ventas", permisosVentas(permisos));
         Rol rrhhRole = crearRol("RRHH", "Gestion de usuarios", permisosRrhh(permisos));
 
         List<Sucursal> sucursales = new ArrayList<>();
@@ -119,7 +119,7 @@ public class DataSeeder implements ApplicationRunner {
         for (String subject : SUBJECTS) {
             for (String action : ACTIONS) {
                 Permiso permiso = new Permiso();
-                permiso.setNombre(action + " " + subject);
+                permiso.setNombre(action + ":" + subject);
                 permiso.setDescripcion("Permite " + action + " en " + subject);
                 permiso.setSubject(subject);
                 permiso.setAction(action);
@@ -127,7 +127,21 @@ public class DataSeeder implements ApplicationRunner {
                 permisos.add(permiso);
             }
         }
+        permisos.add(crearPermiso("ejecutivo", "eblumbit", "leer",
+            "Permiso ejecutivo para ver informacion general de la app"));
+        permisos.add(crearPermiso("admin:ventas", "ventas", "administrar",
+            "Permiso para realizar todas las operaciones en ventas"));
         return permisos;
+    }
+
+    private Permiso crearPermiso(String nombre, String subject, String action, String descripcion) {
+        Permiso permiso = new Permiso();
+        permiso.setNombre(nombre);
+        permiso.setDescripcion(descripcion);
+        permiso.setSubject(subject);
+        permiso.setAction(action);
+        entityManager.persist(permiso);
+        return permiso;
     }
 
     private Rol crearRol(String nombre, String descripcion, List<Permiso> permisos) {
@@ -141,18 +155,14 @@ public class DataSeeder implements ApplicationRunner {
 
     private List<Permiso> permisosVentas(List<Permiso> permisos) {
         return permisos.stream()
-            .filter(permiso -> List.of("Cliente", "Producto", "Inventario").contains(permiso.getSubject())
-                ? !"delete".equals(permiso.getAction())
-                : "read".equals(permiso.getAction())
-                    && List.of("Proveedor", "Sucursal", "Categorias", "Almacen").contains(permiso.getSubject()))
+            .filter(permiso -> List.of("compras", "ventas", "inventario", "clientes", "proveedores")
+                .contains(permiso.getSubject()))
             .toList();
     }
 
     private List<Permiso> permisosRrhh(List<Permiso> permisos) {
         return permisos.stream()
-            .filter(permiso -> "Usuario".equals(permiso.getSubject())
-                ? !"delete".equals(permiso.getAction())
-                : "read".equals(permiso.getAction()) && "Sucursal".equals(permiso.getSubject()))
+            .filter(permiso -> List.of("users", "roles", "permissions").contains(permiso.getSubject()))
             .toList();
     }
 

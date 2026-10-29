@@ -1,26 +1,34 @@
 package com.blumbit.eblumbit.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter 
-@Setter 
-@Builder 
-@AllArgsConstructor 
-@NoArgsConstructor 
-public class CustomErrorResponse<T> {
+/**
+ * Envelope de error compatible con ProblemDetails de ASP.NET Core (.NET),
+ * que es el contrato canonico del proyecto.
+ */
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CustomErrorResponse {
 
-    private int statusCode;
+    private String type;
 
-    private String errorCode;
+    private String title;
 
-    private String timestamp;
+    private int status;
 
-    private T message;
+    private String detail;
 
-    private String path;
+    private String instance;
 
+    private String traceId;
 }

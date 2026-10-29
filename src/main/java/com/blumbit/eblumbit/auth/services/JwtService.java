@@ -1,6 +1,7 @@
 package com.blumbit.eblumbit.auth.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
@@ -14,7 +15,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-@Service 
+@Service
 public class JwtService {
 
     @Value("${application.jwt.secret-key}")
@@ -22,9 +23,6 @@ public class JwtService {
 
     @Value("${application.jwt.expiration}")
     private Long expiration;
-
-    @Value("${application.jwt.refresh-expiration}")
-    private Long refreshExpiration;
 
     public String extractUsername(String token) {
         return Jwts.parser()
@@ -35,22 +33,26 @@ public class JwtService {
                 .getSubject();
     }
 
-    public String buildToken(Usuario usuario, Long expiration) {
+    public String buildToken(Usuario usuario, Long expiration, List<String> permissions) {
         return Jwts.builder()
                 .subject(usuario.getUsername())
-                .claims(Map.of("_uid", usuario.getId()))
+                .claims(Map.of(
+                        "_uid", usuario.getId(),
+                        "UsuarioId", usuario.getId(),
+                        "email", usuario.getEmail()))
+                .claim("Permission", permissions == null ? List.of() : permissions)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+expiration))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey())
                 .compact();
     }
 
-    public String generateAccesToken(Usuario usuario) {
-        return buildToken(usuario, expiration);
+    public String generateAccesToken(Usuario usuario, List<String> permissions) {
+        return buildToken(usuario, expiration, permissions);
     }
 
-    public String generateRefreshToken(Usuario usuario) {
-        return buildToken(usuario, refreshExpiration);
+    public int getExpirationMinutes() {
+        return (int) (expiration / 60000);
     }
 
     public boolean isTokenExpired(String token) {
