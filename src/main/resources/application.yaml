@@ -32,4 +32,6 @@ application:
     expiration: 900000 # 15 minutos
     refresh-expiration: 432000000 # 5 días
 storage:
-  location: /home/david/Documents/projects/blumbit/springv6/eblumbit/files
+  # Ruta donde se guardan los archivos subidos (PDFs, imágenes, etc.).
+  # Se puede sobrescribir con la variable de entorno STORAGE_LOCATION.
+  location: ${STORAGE_LOCATION:./files}
