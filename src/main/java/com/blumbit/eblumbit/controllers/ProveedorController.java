@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping({ "/api/proveedores", "/proveedores" })
+@RequestMapping("/proveedores")
 @RequiredArgsConstructor
 public class ProveedorController {
 

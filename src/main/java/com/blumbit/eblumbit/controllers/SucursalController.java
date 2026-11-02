@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController 
-@RequestMapping("/sucursales")
+@RequestMapping({"/sucursales" })
 public class SucursalController {
 
     @Autowired 
@@ -62,7 +62,7 @@ public class SucursalController {
     }
 
     @DeleteMapping("/{id}") 
-    public ResponseEntity<Void> deleteSucursal(@PathVariable Integer id, @RequestBody CreateSucursalDto createUsuarioDto) {
+    public ResponseEntity<Void> deleteSucursal(@PathVariable Integer id) {
         sucursalService.deleteSucursal(id);
         return ResponseEntity.noContent().build();
     }

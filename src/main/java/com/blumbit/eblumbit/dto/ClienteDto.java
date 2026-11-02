@@ -11,10 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Contrato de clientes compartido por ambos backends.
- * fechaNacimiento viaja como texto "yyyy-MM-dd", igual que en .NET.
- */
 @Getter
 @Setter
 @Builder

@@ -8,10 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Contrato de categorias compartido por ambos backends.
- * "detalle" es el nombre canonico en .NET; "descripcion" se mantiene como alias.
- */
 @Getter
 @Setter
 @Builder

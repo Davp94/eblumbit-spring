@@ -13,5 +13,7 @@ public interface IComprasService {
 
     ComprasResponse createCompra(ComprasRequest comprasRequest);
 
+    void anularCompra(Integer id);
+
     byte[] generateReport(Integer id);
 }

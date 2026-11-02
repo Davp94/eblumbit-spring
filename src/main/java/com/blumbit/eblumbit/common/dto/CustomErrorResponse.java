@@ -8,10 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Envelope de error compatible con ProblemDetails de ASP.NET Core (.NET),
- * que es el contrato canonico del proyecto.
- */
 @Getter
 @Setter
 @Builder

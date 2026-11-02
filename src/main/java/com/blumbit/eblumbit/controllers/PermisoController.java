@@ -23,7 +23,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping({ "/api/permissions", "/permissions", "/api/permisos", "/permisos" })
+@RequestMapping("/permisos")
 @RequiredArgsConstructor
 public class PermisoController {
 

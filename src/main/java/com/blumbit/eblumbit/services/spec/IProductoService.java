@@ -10,9 +10,15 @@ import com.blumbit.eblumbit.dto.productos.ProductoResponse;
 
 public interface IProductoService {
 
-    PageableResponse<ProductoResponse> getProductosPagination(PageableRequest<ProductoFilterCriteria> pageableRequest);
+    PageableResponse<ProductoResponse> getProductosPagination(PageableRequest<ProductoFilterCriteria> queryParams);
+
+    ProductoResponse findProductoById(Integer id);
 
     ProductoResponse createProducto(ProductoRequest request);
+
+    ProductoResponse updateProducto(Integer id, ProductoRequest request);
+
+    void deleteProducto(Integer id);
 
     List<ProductoResponse> getProductosByAlmacen(Integer almacenId);
 }

@@ -67,8 +67,9 @@ public class UsuarioService {
     @Transactional
     public UsuarioDto createUsuario(CreateUsuarioDto dto) {
         String email = dto.resolveEmail();
-        if (email == null || email.isBlank()) {
-            throw new BusinessRuleException("El email es obligatorio");
+        if (dto.getUsername() == null || dto.getUsername().isBlank()
+                || email == null || email.isBlank()) {
+            throw new BusinessRuleException("El username y el email son obligatorios");
         }
 
         if (usuarioRepository.findByUsername(dto.getUsername()) != null) {
@@ -96,8 +97,9 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", id));
 
         String email = dto.resolveEmail();
-        if (email == null || email.isBlank()) {
-            throw new BusinessRuleException("El email es obligatorio");
+        if (dto.getUsername() == null || dto.getUsername().isBlank()
+                || email == null || email.isBlank()) {
+            throw new BusinessRuleException("El username y el email son obligatorios");
         }
 
         Usuario sameUsername = usuarioRepository.findByUsername(dto.getUsername());

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.blumbit.eblumbit.dto.CreateSucursalDto;
 import com.blumbit.eblumbit.dto.SucursalDto;
 import com.blumbit.eblumbit.entities.Sucursal;
+import com.blumbit.eblumbit.exception.ResourceNotFoundException;
 import com.blumbit.eblumbit.repository.SucursalRepository;
 import com.blumbit.eblumbit.services.spec.ISucursalService;
 
@@ -26,8 +27,8 @@ public class SucursalService implements ISucursalService {
 
     @Override
     public SucursalDto findSucursalById(Integer id) {
-        return SucursalDto.fromEntityData(sucursalRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Sucursal no encontrada")));
+        return SucursalDto.fromEntityData(sucursalRepository.findById(id.longValue())
+        .orElseThrow(() -> new ResourceNotFoundException("Sucursal", id)));
     }
 
     @Override
@@ -37,17 +38,18 @@ public class SucursalService implements ISucursalService {
 
     @Override
     public SucursalDto updateSucursal(Integer id, CreateSucursalDto createSucursalDto) {
-       Sucursal sucursal = sucursalRepository.findById(id).orElseThrow(()->new RuntimeException("sucursal no encontrada"));
+       Sucursal sucursal = sucursalRepository.findById(id.longValue())
+                .orElseThrow(() -> new ResourceNotFoundException("Sucursal", id));
         sucursal.setCiudad(createSucursalDto.getCiudad());
         sucursal.setDireccion(createSucursalDto.getDireccion());
         sucursal.setNombre(createSucursalDto.getNombre());
         sucursal.setTelefono(createSucursalDto.getTelefono());
-       return SucursalDto.fromEntityData(sucursalRepository.save(CreateSucursalDto.toEntity(createSucursalDto)));
+       return SucursalDto.fromEntityData(sucursalRepository.save(sucursal));
     }
 
     @Override
     public void deleteSucursal(Integer id) {
-        sucursalRepository.deleteById(id);
+        sucursalRepository.deleteById(id.longValue());
     }
 
 }

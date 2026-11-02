@@ -6,4 +6,8 @@ public class ResourceNotFoundException extends DomainException{
         super(resource + " con id " + id + " no encontrado", 404, "NOT_FOUND_EXCEPTION");
     }
 
+    public ResourceNotFoundException(String message) {
+        super(message, 404, "NOT_FOUND_EXCEPTION");
+    }
+
 }

@@ -52,6 +52,7 @@ public class RestExceptionHandler {
             MethodArgumentNotValidException exception, HttpServletRequest req) {
         String message = exception.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .sorted()
                 .reduce((a, b) -> a + "; " + b)
                 .orElse("Error de validación");
         return build(HttpStatus.BAD_REQUEST, "Error de validacion", message, req);

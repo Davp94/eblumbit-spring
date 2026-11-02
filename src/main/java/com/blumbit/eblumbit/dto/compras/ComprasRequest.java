@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ComprasRequest {
 
-    @NotBlank
     private String codigo;
 
     private LocalDateTime fecha;
@@ -32,13 +29,11 @@ public class ComprasRequest {
 
     private BigDecimal descuentoTotal;
 
-    @NotBlank
     private String estado;
 
     private String detalle;
 
     private String observaciones;
 
-    @NotEmpty
     private List<@Valid DetalleCompraRequest> detalleCompra;
 }

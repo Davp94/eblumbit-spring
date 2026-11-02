@@ -17,16 +17,12 @@ import com.blumbit.eblumbit.services.spec.IFileService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping({ "/api/file", "/file", "/api/files", "/files" })
+@RequestMapping("/files")
 @RequiredArgsConstructor
 public class FileController {
 
     private final IFileService fileService;
 
-    /**
-     * Mismo contrato que .NET: GET /api/file?filePath=... devuelve los bytes
-     * con content-type application/octet-stream.
-     */
     @GetMapping
     public ResponseEntity<Resource> retrieveFile(@RequestParam(required = false) String filePath) {
         if (filePath == null || filePath.isBlank()) {

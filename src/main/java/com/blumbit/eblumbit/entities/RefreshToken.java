@@ -17,9 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Refresh token opaco persistido, equivalente a la tabla refresh_tokens de .NET.
- */
 @Entity
 @Table(name = "refresh_tokens")
 @Getter

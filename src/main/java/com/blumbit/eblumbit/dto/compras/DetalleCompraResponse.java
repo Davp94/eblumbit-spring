@@ -17,20 +17,24 @@ public class DetalleCompraResponse {
     private Integer id;
     private Integer compraId;
     private Integer productoId;
+    private String productoNombre;
     private Integer almacenId;
+    private String almacenNombre;
     private Integer cantidad;
     private BigDecimal precioUnitarioCompra;
     private String observaciones;
 
     public static DetalleCompraResponse fromEntity(DetalleCompra detalleCompra) {
         return DetalleCompraResponse.builder()
-            .id(detalleCompra.getId())
-            .compraId(detalleCompra.getCompra().getId())
-            .productoId(detalleCompra.getProducto().getId())
-            .almacenId(detalleCompra.getAlmacen().getId())
-            .cantidad(detalleCompra.getCantidad())
-            .precioUnitarioCompra(detalleCompra.getPrecioUnitarioCompra())
-            .observaciones(detalleCompra.getObservaciones())
-            .build();
+                .id(detalleCompra.getId())
+                .compraId(detalleCompra.getCompra().getId())
+                .productoId(detalleCompra.getProducto().getId())
+                .productoNombre(detalleCompra.getProducto().getNombre())
+                .almacenId(detalleCompra.getAlmacen().getId())
+                .almacenNombre(detalleCompra.getAlmacen().getNombre())
+                .cantidad(detalleCompra.getCantidad())
+                .precioUnitarioCompra(detalleCompra.getPrecioUnitarioCompra())
+                .observaciones(detalleCompra.getObservaciones())
+                .build();
     }
 }

@@ -34,7 +34,7 @@ public class Venta {
     @Column(nullable = false)
     private LocalDateTime fecha;
 
-    @Column(scale = 12, precision = 2)
+    @Column(precision = 12, scale = 2)
     private BigDecimal descuentoTotal;
 
     @Column(nullable = false)

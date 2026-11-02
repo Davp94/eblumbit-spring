@@ -24,7 +24,7 @@ import com.blumbit.eblumbit.services.UsuarioService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping({ "/usuarios", "/api/usuarios", "/users", "/api/users" })
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;

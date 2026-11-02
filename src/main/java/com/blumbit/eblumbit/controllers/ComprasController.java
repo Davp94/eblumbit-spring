@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +20,9 @@ import com.blumbit.eblumbit.services.spec.IComprasService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
-@RequestMapping("/compras")
+@RequestMapping({"/compras" })
 @RequiredArgsConstructor
 public class ComprasController {
 
@@ -39,17 +38,23 @@ public class ComprasController {
         return ResponseEntity.ok(comprasService.findCompraById(id));
     }
 
-    @GetMapping("{compraId}/report")
+    @GetMapping("/{compraId}/report")
     public ResponseEntity<byte[]> getReportCompra(@PathVariable Integer compraId) {
         return ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_PDF)
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment: filename=compras-report.pdf")
-            .body(comprasService.generateReport(compraId));
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"compra_" + compraId + "_report.pdf\"")
+                .body(comprasService.generateReport(compraId));
     }
-    
 
     @PostMapping
     public ResponseEntity<ComprasResponse> createCompra(@Valid @RequestBody ComprasRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(comprasService.createCompra(request));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> anularCompra(@PathVariable Integer id) {
+        comprasService.anularCompra(id);
+        return ResponseEntity.noContent().build();
     }
 }

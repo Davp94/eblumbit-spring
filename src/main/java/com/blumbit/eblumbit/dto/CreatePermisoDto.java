@@ -10,9 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Acepta "detalle" (.NET) o su alias "descripcion" (Spring).
- */
 @Getter
 @Setter
 @Builder

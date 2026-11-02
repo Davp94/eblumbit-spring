@@ -9,28 +9,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data 
-@AllArgsConstructor 
-@NoArgsConstructor 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class DetalleVentaResponse {
+
     private Integer id;
-    private Integer ventaId;
-    private Integer productoId;
-    private Integer almacenId;
     private Integer cantidad;
-    private String observacion;
     private BigDecimal precioUnitarioVenta;
+    private String observaciones;
+    private Integer productoId;
+    private String productoNombre;
+    private Integer ventaId;
+    private Integer almacenId;
+    private String almacenNombre;
 
     public static DetalleVentaResponse fromEntity(DetalleVenta detalleVenta) {
         return DetalleVentaResponse.builder()
-        .id(detalleVenta.getId())
-        .cantidad(detalleVenta.getCantidad())
-        .observacion(detalleVenta.getObservaciones())
-        .precioUnitarioVenta(detalleVenta.getPrecioUnitarioVenta())
-        .ventaId(detalleVenta.getVenta().getId())
-        .productoId(detalleVenta.getProducto().getId())
-        .almacenId(detalleVenta.getAlmacen().getId())
-        .build();
+                .id(detalleVenta.getId())
+                .cantidad(detalleVenta.getCantidad())
+                .precioUnitarioVenta(detalleVenta.getPrecioUnitarioVenta())
+                .observaciones(detalleVenta.getObservaciones())
+                .productoId(detalleVenta.getProducto().getId())
+                .productoNombre(detalleVenta.getProducto().getNombre())
+                .ventaId(detalleVenta.getVenta().getId())
+                .almacenId(detalleVenta.getAlmacen().getId())
+                .almacenNombre(detalleVenta.getAlmacen().getNombre())
+                .build();
     }
 }

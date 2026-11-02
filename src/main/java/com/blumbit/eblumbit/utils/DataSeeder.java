@@ -120,7 +120,7 @@ public class DataSeeder implements ApplicationRunner {
             for (String action : ACTIONS) {
                 Permiso permiso = new Permiso();
                 permiso.setNombre(action + ":" + subject);
-                permiso.setDescripcion("Permite " + action + " en " + subject);
+                permiso.setDescripcion("asignacion masiva");
                 permiso.setSubject(subject);
                 permiso.setAction(action);
                 entityManager.persist(permiso);

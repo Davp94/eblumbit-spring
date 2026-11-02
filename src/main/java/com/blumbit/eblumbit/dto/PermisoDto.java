@@ -8,10 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Contrato de permisos compartido por ambos backends.
- * "detalle" es el nombre canonico en .NET; "descripcion" es el alias de Spring.
- */
 @Getter
 @Setter
 @Builder

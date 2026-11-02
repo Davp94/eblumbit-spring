@@ -29,7 +29,7 @@ public class DetalleVenta {
     @Column(nullable = false)
     private Integer cantidad;
 
-    @Column(scale = 12, precision = 2, nullable = false)
+    @Column(precision = 12, scale = 2, nullable = false)
     private BigDecimal precioUnitarioVenta;
 
     @Column(length = Integer.MAX_VALUE)
