@@ -16,7 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     Usuario findByEmailIgnoreCase(String email);
 
-    Usuario findByUsername(String username); // select * from users where username = ${username} limit 1
+    Usuario findByUsernameIgnoreCase(String username); // select * from users where username = ${username} limit 1
 
     @Query(value="SELECT EXIST(SELECT 1 FROM users where name = ?1)", nativeQuery = true)
     boolean existByUsername(String username);

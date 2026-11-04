@@ -47,7 +47,7 @@ public class AuthService implements IAuthService {
     @Transactional
     public AuthResponse login(AuthRequest authRequest) {
         if (authRequest == null || authRequest.getPassword() == null
-                || (isBlank(authRequest.getEmail()) && isBlank(authRequest.getUsername()))) {
+                || (isBlank(authRequest.getUsername()) && isBlank(authRequest.getUsername()))) {
             throw new AuthenticationException("Credenciales inválidas");
         }
 
@@ -109,10 +109,10 @@ public class AuthService implements IAuthService {
     }
 
     private Usuario findUsuario(AuthRequest request) {
-        if (!isBlank(request.getEmail())) {
-            return usuarioRepository.findByEmailIgnoreCase(request.getEmail().trim());
+        if (!isBlank(request.getUsername())) {
+            return usuarioRepository.findByUsernameIgnoreCase(request.getUsername().trim());
         }
-        return usuarioRepository.findByUsername(request.getUsername().trim());
+        return usuarioRepository.findByUsernameIgnoreCase(request.getUsername().trim());
     }
 
     private AuthResponse buildResponse(Usuario usuario, String accessToken, String refreshToken,

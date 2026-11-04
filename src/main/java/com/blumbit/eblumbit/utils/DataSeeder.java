@@ -49,7 +49,7 @@ public class DataSeeder implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        if (usuarioRepository.findByUsername("admin") != null) {
+        if (usuarioRepository.findByUsernameIgnoreCase("admin") != null) {
             return;
         }
 

@@ -61,7 +61,7 @@ public class UsuarioService {
     }
 
     public UsuarioDto findUsuarioByUsername(String username) {
-        return UsuarioDto.fromEntityData(usuarioRepository.findByUsername(username));
+        return UsuarioDto.fromEntityData(usuarioRepository.findByUsernameIgnoreCase(username));
     }
 
     @Transactional
@@ -72,7 +72,7 @@ public class UsuarioService {
             throw new BusinessRuleException("El username y el email son obligatorios");
         }
 
-        if (usuarioRepository.findByUsername(dto.getUsername()) != null) {
+        if (usuarioRepository.findByUsernameIgnoreCase(dto.getUsername()) != null) {
             throw new ConfictException("El username o el email ya existen");
         }
         if (usuarioRepository.findByEmailIgnoreCase(email) != null) {
@@ -102,7 +102,7 @@ public class UsuarioService {
             throw new BusinessRuleException("El username y el email son obligatorios");
         }
 
-        Usuario sameUsername = usuarioRepository.findByUsername(dto.getUsername());
+        Usuario sameUsername = usuarioRepository.findByUsernameIgnoreCase(dto.getUsername());
         if (sameUsername != null && !sameUsername.getId().equals(id)) {
             throw new ConfictException("El username o el email ya existen");
         }

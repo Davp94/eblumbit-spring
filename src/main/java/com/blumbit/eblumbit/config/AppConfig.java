@@ -47,7 +47,7 @@ import com.blumbit.eblumbit.entities.Usuario;
         @Bean 
         public UserDetailsService userDetailsService() {
             return username -> {
-                Usuario usuario = usuarioRepository.findByUsername(username);
+                Usuario usuario = usuarioRepository.findByUsernameIgnoreCase(username);
                 if(usuario == null)
                     throw new RuntimeException("Usuario no encontrado");
                 List<GrantedAuthority> authorities = usuario.getRolesUsuario().stream()
