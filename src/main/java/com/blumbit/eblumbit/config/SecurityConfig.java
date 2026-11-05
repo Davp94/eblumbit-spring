@@ -45,6 +45,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/auth/**", "/auth/**").permitAll()
                     .requestMatchers("/api/health", "/health").permitAll()
+                    .requestMatchers("/v3/api-docs").permitAll()
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/api/file/**", "/file/**", "/api/files/**", "/files/**").permitAll()
                     .requestMatchers("/api/ventas/**", "/ventas/**").hasAnyAuthority("admin:ventas", "ROLE_VENDEDOR", "ROLE_ADMIN")
                     .anyRequest().authenticated()
