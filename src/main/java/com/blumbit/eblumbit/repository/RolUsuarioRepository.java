@@ -13,4 +13,6 @@ public interface RolUsuarioRepository extends JpaRepository<RolUsuario, Integer>
     List<RolUsuario> findByUsuario_Id(Integer usuarioId);
 
     void deleteByUsuario_Id(Integer usuarioId);
+
+    void deleteByRol_Id(Integer rolId);
 }

@@ -530,6 +530,7 @@ Todas las rutas requieren el header `Authorization: Bearer <token>`, excepto `au
 | GET/POST/PUT/DELETE | `/api/ventas` o `/ventas` | Ventas |
 | GET/POST/PUT/DELETE | `/usuarios` | Usuarios |
 | GET/POST/PUT/DELETE | `/permisos` | Permisos |
+| GET/POST/PUT/DELETE | `/roles` | Roles |
 | GET | `/files?filePath=...` | Descargar archivo |
 
 La documentación interactiva completa está disponible en Swagger UI.
